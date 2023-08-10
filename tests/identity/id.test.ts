@@ -106,6 +106,33 @@ describe('identity', () => {
     console.log(JSON.stringify(credential));
     expect((await claimsTree.root()).bigInt()).not.to.equal(0);
   });
+  it('createIdentityNbo', async () => {
+    const seedPhrase: Uint8Array = byteEncoder.encode('seedseedseedseedseedseedseedseed');
+
+    const { did, credential } = await wallet.createIdentity({
+      method: DidMethod.Nbo,
+      blockchain: Blockchain.Besu,
+      networkId: NetworkId.Test,
+      seed: seedPhrase,
+      revocationOpts: {
+        type: CredentialStatusType.Iden3ReverseSparseMerkleTreeProof,
+        id: 'http://rhs.com/node'
+      }
+    });
+    expect(did.string()).to.equal(
+      'did:nbo:besu:test:4btDtDNqELUpm1PnJrFMKGfds6TkMfzSv99K8mPujj'
+    );
+    const dbCred = await dataStorage.credential.findCredentialById(credential.id);
+    expect(credential).to.deep.equal(dbCred);
+
+    const claimsTree = await dataStorage.mt.getMerkleTreeByIdentifierAndType(
+      did.string(),
+      MerkleTreeType.Claims
+    );
+
+    console.log(JSON.stringify(credential));
+    expect((await claimsTree.root()).bigInt()).not.to.equal(0);
+  });
   it('createProfile', async () => {
     const seedPhrase: Uint8Array = byteEncoder.encode('seedseedseedseedseedseedseedseed');
 
