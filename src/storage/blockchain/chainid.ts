@@ -8,7 +8,10 @@ export const CHAIN_IDS: { [key: string]: number } = {
   'eth:goerli': 5,
   polygon: 137,
   'polygon:main': 137,
-  'polygon:mumbai': 80001
+  'polygon:mumbai': 80001,
+  besu: 2018,
+  'besu:main': 12018,
+  'besu:test': 2018
 };
 
 /**
@@ -17,7 +20,8 @@ export const CHAIN_IDS: { [key: string]: number } = {
  */
 export const DEFAULT_NETWORKS: { [key: string]: number } = {
   ethr: 1,
-  polygonid: 137
+  polygonid: 137,
+  nbo: 2018,
 };
 
 /**
